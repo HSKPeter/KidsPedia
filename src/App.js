@@ -2,8 +2,8 @@ import './App.css';
 
 function App() {
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen py-2'>
-      <div className='text-4xl md:text-6xl font-bold mb-6'>
+    <div className='flex flex-col items-center justify-center min-h-screen' style={{position: 'relative', bottom: '180px'}}>
+      <div className='text-6xl font-bold mb-6'>
         Kidspedia
       </div>
       <p className='mt-3 text-2xl'>Simplify complex concepts for kids</p>
