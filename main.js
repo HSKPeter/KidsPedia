@@ -30,7 +30,8 @@ app.get("/api/foobar", (req, res) => {
 
 app.post("/api/search", (req, res) => {
     console.log(req.body);
-    res.send(`{text: “foobarbaz”}`);
+    const resBody = {text: "foobarbaz"}
+    res.send(resBody);
 })
 
 app.listen(3000, console.log("listening on 3000"));
