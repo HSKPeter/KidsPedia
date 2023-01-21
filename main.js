@@ -22,8 +22,15 @@ async function getAPI() {
       });
 }
 
+app.use(bodyParser.json());
+
 app.get("/api/foobar", (req, res) => {
     res.send(response);
+})
+
+app.post("/api/search", (req, res) => {
+    console.log(req.body);
+    res.send(`{text: “foobarbaz”}`);
 })
 
 app.listen(3000, console.log("listening on 3000"));
