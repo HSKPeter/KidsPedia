@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 const { getExplanationFromOpenAI } = require("./utils/openai");
 const { textToSpeech } = require("./utils/azure");
+const { getExistingExplanation, saveNewExplanation } = require("./utils/db");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -25,7 +26,15 @@ app.get('/api/text-to-speech', async (req, res) => {
 
 app.post("/api/search", async (req, res) => {
   const { keyword } = req.body;
+  const existingExplanation = await getExistingExplanation(keyword);
+  
+  if (existingExplanation) {
+    res.json({ text: existingExplanation });
+    return;
+  }
+
   const text = await getExplanationFromOpenAI(keyword);
+  await saveNewExplanation({keyword, explanation: text})
   res.json({ text });
 });
 
