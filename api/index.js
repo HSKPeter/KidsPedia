@@ -37,8 +37,7 @@ app.post("/api/search", async (req, res) => {
     }
   }
 
-  const text = "text"
-  // await getExplanationFromOpenAI(keyword);
+  const text = await getExplanationFromOpenAI(keyword);
   await saveNewExplanation({keyword, explanation: text})
   res.json({ text });
 });
