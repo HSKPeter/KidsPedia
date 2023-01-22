@@ -47,8 +47,4 @@ app.post("/api/search", async (req, res) => {
 
 const PORT = 8080;
 
-function main() {
-  app.listen(PORT, console.log(`listening on ${PORT}`));
-}
-
-setTimeout(main, 1000)
+app.listen(PORT, console.log(`listening on ${PORT}`));
