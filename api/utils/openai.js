@@ -10,7 +10,7 @@ const openai = new OpenAIApi(configuration);
 const wordLimitsForOpenAiResponse = 80
 
 function generatePromptForOpenAI(keyword) {
-  return `Please explain "what is ${keyword}" to a second-grade student in ${wordLimitsForOpenAiResponse} words.`;
+  return `Explain "what is ${keyword}" to a second-grade student in ${wordLimitsForOpenAiResponse} words, in a really simple way.  It would be nice if you could use metaphor as well`;
 }
 
 async function getExplanationFromOpenAI(keyword) {
