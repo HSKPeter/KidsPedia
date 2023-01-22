@@ -6,18 +6,18 @@ function App() {
   const [isSearching, setIsSearching] = useState(false);
   const [keywordInput, setKeywordInput] = useState("");
   const [explanation, setExplanation] = useState("");
+  const [fixKeyword, setFixKeyword] = useState("");
 
   const handleClickOfSearchButton = async (e) => {
     setIsSearching(true);
     await connectBackend();
     setIsSearching(false);
+    setFixKeyword(keywordInput);
   }
 
   const handleUserInputChange = (e) => {
     setKeywordInput(e.target.value);
   }
-
-  
 
   async function connectBackend(){
     let response = await fetch("http://localhost:8080/api/search", {
@@ -47,7 +47,7 @@ function App() {
               className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
               placeholder="Search for things you want to know"
               value={keywordInput}
-              onChange={handleUserInputChange}
+              onInput={handleUserInputChange}
             />
           </div>
           <div className='flex flex-col items-center justify-start'>
@@ -69,7 +69,7 @@ function App() {
       {
         !isSearching && explanation &&
         <ResultCard
-          keyword={keywordInput}
+          keyword={fixKeyword}
           explanation={explanation}
         />
       }
