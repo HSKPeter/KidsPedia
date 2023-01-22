@@ -14,7 +14,7 @@ const db = pgp(`postgres://${DB_INSTANCE_USERNAME}:${DB_INSTANCE_PASSWORD}@${DB_
 
 async function getExistingExplanation(keyword) {
     try {
-        const data = await db.oneOrNone(`SELECT * FROM keywords where keyword = '${keyword}' LIMIT 1`);
+        const data = await db.oneOrNone(`SELECT * FROM keywords where keyword = '${keyword.toLowerCase()}' LIMIT 1`);
         return data?.explanation;
     } catch(err) {
         return null;
@@ -24,7 +24,7 @@ async function getExistingExplanation(keyword) {
 async function saveNewExplanation({keyword, explanation}) {
     try {
         // eslint-disable-next-line no-template-curly-in-string
-        await db.query('INSERT INTO keywords (keyword, explanation) VALUES(${keyword}, ${explanation}) ON CONFLICT (keyword) DO UPDATE SET explanation = ${explanation}', {keyword, explanation});
+        await db.query('INSERT INTO keywords (keyword, explanation) VALUES(${keyword}, ${explanation}) ON CONFLICT (keyword) DO UPDATE SET explanation = ${explanation}', {keyword: keyword.toLowerCase(), explanation});
     } catch(err) {
         console.log(err);
     }

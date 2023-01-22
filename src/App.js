@@ -42,7 +42,6 @@ function App() {
   return (
     <div className='flex flex-col items-center justify-center min-h-screen' style={{ position: 'relative', bottom: toDisplayResultCard ? '60px' : '180px' }}>
       <div className='text-6xl font-bold mb-6'>
-      {/* className="text-orange-300" */}
         <span id="rainbow">Kids</span><span>Pedia</span>
       </div>
       <p className='mt-3 text-2xl text-slate-500'>Simplify complex concepts for kids</p>
