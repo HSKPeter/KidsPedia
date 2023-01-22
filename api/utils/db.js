@@ -24,7 +24,7 @@ async function getExistingExplanation(keyword) {
 async function saveNewExplanation({keyword, explanation}) {
     try {
         // eslint-disable-next-line no-template-curly-in-string
-        await db.query('INSERT INTO keywords (keyword, explanation) VALUES(${keyword}, ${explanation})', {keyword, explanation});
+        await db.query('INSERT INTO keywords (keyword, explanation) VALUES(${keyword}, ${explanation}) ON CONFLICT (keyword) DO UPDATE SET explanation = ${explanation}', {keyword, explanation});
     } catch(err) {
         console.log(err);
     }

@@ -8,21 +8,26 @@ function App() {
   const [explanation, setExplanation] = useState("");
   const [fixKeyword, setFixKeyword] = useState("");
 
-  const handleClickOfSearchButton = async (e) => {
+  const performSearch = async (keyword, retry = false) => {
     setIsSearching(true);
-    await connectBackend();
+    await connectBackend(keyword, retry);
     setIsSearching(false);
-    setFixKeyword(keywordInput);
+    setFixKeyword(keyword);
+  }
+
+  const handleClickOfSearchButton = async (e) => {
+    await performSearch(keywordInput);
   }
 
   const handleUserInputChange = (e) => {
     setKeywordInput(e.target.value);
   }
 
-  async function connectBackend() {
-    let response = await fetch("http://localhost:8080/api/search", {
+  async function connectBackend(keyword, isRetry) {
+    const url = `http://localhost:8080/api/search?retry=${isRetry}`
+    let response = await fetch(url, {
       method: `POST`,
-      body: JSON.stringify({ keyword: keywordInput }),
+      body: JSON.stringify({ keyword }),
       headers: {
         'Content-Type': 'application/json'
       },
@@ -70,6 +75,7 @@ function App() {
         <ResultCard
           keyword={fixKeyword}
           explanation={explanation}
+          performSearch={performSearch}
         />
       }
     </div>

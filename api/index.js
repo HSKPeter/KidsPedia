@@ -26,14 +26,19 @@ app.get('/api/text-to-speech', async (req, res) => {
 
 app.post("/api/search", async (req, res) => {
   const { keyword } = req.body;
-  const existingExplanation = await getExistingExplanation(keyword);
+  const { retry } = req.query;
+
+  if (retry === "false") {
+    const existingExplanation = await getExistingExplanation(keyword);
   
-  if (existingExplanation) {
-    res.json({ text: existingExplanation });
-    return;
+    if (existingExplanation) {
+      res.json({ text: existingExplanation });
+      return;
+    }
   }
 
-  const text = await getExplanationFromOpenAI(keyword);
+  const text = "text"
+  // await getExplanationFromOpenAI(keyword);
   await saveNewExplanation({keyword, explanation: text})
   res.json({ text });
 });
