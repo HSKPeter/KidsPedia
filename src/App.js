@@ -36,9 +36,11 @@ function App() {
     let text = input.text;
     setExplanation(text);
   }
+  
+  const toDisplayResultCard = !isSearching && explanation;
 
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen' style={{ position: 'relative', bottom: '180px' }}>
+    <div className='flex flex-col items-center justify-center min-h-screen' style={{ position: 'relative', bottom: toDisplayResultCard ? '60px' : '180px' }}>
       <div className='text-6xl font-bold mb-6'>
         <span className="text-blue-600">Kids</span><span>Pedia</span>
       </div>
@@ -71,7 +73,7 @@ function App() {
         </form>
       </div>
       {
-        !isSearching && explanation &&
+        toDisplayResultCard &&
         <ResultCard
           keyword={fixKeyword}
           explanation={explanation}
