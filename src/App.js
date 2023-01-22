@@ -7,16 +7,31 @@ function App() {
   const [keywordInput, setKeywordInput] = useState("");
   const [explanation, setExplanation] = useState("");
 
-  const handleClickOfSearchButton = (e) => {
+  const handleClickOfSearchButton = async (e) => {
     setIsSearching(true);
-    setTimeout(() => {
-      setExplanation("Testing testing ...")
-      setIsSearching(false);
-    }, 1000)
+    // setTimeout(() => {
+    //   setExplanation("Testing testing ...")
+    //   setIsSearching(false);
+    // }, 1000)
+    await connectBackend();
+    setIsSearching(false);
   }
 
   const handleUserInputChange = (e) => {
     setKeywordInput(e.target.value);
+  }
+
+  
+
+  async function connectBackend(){
+    let response = await fetch("http://localhost:8080/api/search", {
+      method: `POST`,
+      body: JSON.stringify({keywordInput}),
+    });
+    let input = await response.json();
+    let text = input.text;
+    //setKeywordInput(keyword);
+    setExplanation(text);
   }
 
   return (
