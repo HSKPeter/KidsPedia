@@ -8,21 +8,26 @@ function App() {
   const [explanation, setExplanation] = useState("");
   const [fixKeyword, setFixKeyword] = useState("");
 
-  const handleClickOfSearchButton = async (e) => {
+  const performSearch = async (keyword, retry = false) => {
     setIsSearching(true);
-    await connectBackend();
+    await connectBackend(keyword, retry);
     setIsSearching(false);
-    setFixKeyword(keywordInput);
+    setFixKeyword(keyword);
+  }
+
+  const handleClickOfSearchButton = async (e) => {
+    await performSearch(keywordInput);
   }
 
   const handleUserInputChange = (e) => {
     setKeywordInput(e.target.value);
   }
 
-  async function connectBackend(){
-    let response = await fetch("http://localhost:8080/api/search", {
+  async function connectBackend(keyword, isRetry) {
+    const url = `http://localhost:8080/api/search?retry=${isRetry}`
+    let response = await fetch(url, {
       method: `POST`,
-      body: JSON.stringify({keyword: keywordInput}),
+      body: JSON.stringify({ keyword }),
       headers: {
         'Content-Type': 'application/json'
       },
@@ -31,11 +36,13 @@ function App() {
     let text = input.text;
     setExplanation(text);
   }
+  
+  const toDisplayResultCard = !isSearching && explanation;
 
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen' style={{ position: 'relative', bottom: '180px' }}>
+    <div className='flex flex-col items-center justify-center min-h-screen' style={{ position: 'relative', bottom: toDisplayResultCard ? '60px' : '180px' }}>
       <div className='text-6xl font-bold mb-6'>
-        <span className="text-blue-600">Kids</span><span>pedia</span>
+        <span className="text-blue-600">Kids</span><span>Pedia</span>
       </div>
       <p className='mt-3 text-2xl text-slate-500'>Simplify complex concepts for kids</p>
       <div className='max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12'>
@@ -43,8 +50,7 @@ function App() {
           <div className="mb-6 flex flex-col items-center justify-center">
             <input
               type="text"
-              id="keyword"
-              className="w-9/12 xl:w-6/12 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+              className="w-9/12 xl:w-6/12 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
               placeholder="Search for things you want to know"
               value={keywordInput}
               onInput={handleUserInputChange}
@@ -56,7 +62,7 @@ function App() {
               :
               <button
                 type="submit"
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:bg-slate-200 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none"
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xl px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:bg-slate-200 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none"
                 onClick={handleClickOfSearchButton}
               // disabled={keywordInput === ""}
               >
@@ -67,10 +73,11 @@ function App() {
         </form>
       </div>
       {
-        !isSearching && explanation &&
+        toDisplayResultCard &&
         <ResultCard
           keyword={fixKeyword}
           explanation={explanation}
+          performSearch={performSearch}
         />
       }
     </div>
