@@ -12,7 +12,7 @@ body {
 }
 
 #rainbow {
-  background: linear-gradient(to right, rgb(99 102 241), rgb(96 165 250));
+  background: linear-gradient(to right, rgb(251 146 60), rgb(250 204 21));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
