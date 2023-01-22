@@ -1,11 +1,4 @@
 const { Configuration, OpenAIApi } = require("openai");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const express = require("express");
-const app = express();
-
-app.use(cors());
-app.use(bodyParser.json());
 
 require('dotenv').config()
 
@@ -16,9 +9,8 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 const wordLimitsForOpenAiResponse = 80
 
-
 function generatePromptForOpenAI(keyword) {
-  return `Please explain "what is ${keyword}" to a second-grade student in ${wordLimitsForOpenAiResponse} words`;
+  return `Please explain "what is ${keyword}" to a second-grade student in ${wordLimitsForOpenAiResponse} words.`;
 }
 
 async function getExplanationFromOpenAI(keyword) {
@@ -41,12 +33,7 @@ async function getExplanationFromOpenAI(keyword) {
     : ""
 }
 
-app.post("/api/search", async (req, res) => {
-  const { keyword } = req.body;
-  const text = await getExplanationFromOpenAI(keyword);
-  res.json({ text });
-})
-
-const PORT = 8080;
-
-app.listen(PORT, console.log(`listening on ${PORT}`));
+module.exports = {
+    generatePromptForOpenAI,
+    getExplanationFromOpenAI
+}
