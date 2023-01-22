@@ -22,11 +22,13 @@ function App() {
   async function connectBackend(){
     let response = await fetch("http://localhost:8080/api/search", {
       method: `POST`,
-      body: JSON.stringify({keywordInput}),
+      body: JSON.stringify({keyword: keywordInput}),
+      headers: {
+        'Content-Type': 'application/json'
+      },
     });
     let input = await response.json();
     let text = input.text;
-    //setKeywordInput(keyword);
     setExplanation(text);
   }
 
