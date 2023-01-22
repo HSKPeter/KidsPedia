@@ -9,10 +9,6 @@ function App() {
 
   const handleClickOfSearchButton = async (e) => {
     setIsSearching(true);
-    // setTimeout(() => {
-    //   setExplanation("Testing testing ...")
-    //   setIsSearching(false);
-    // }, 1000)
     await connectBackend();
     setIsSearching(false);
   }
