@@ -5,8 +5,6 @@ const app = express();
 
 require('dotenv').config()
 
-console.log(process.env.ABC)
-
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
@@ -48,4 +46,9 @@ app.post("/api/search", async (req, res) => {
 })
 
 const PORT = 8080;
-app.listen(PORT, console.log(`listening on ${PORT}`));
+
+function main() {
+  app.listen(PORT, console.log(`listening on ${PORT}`));
+}
+
+setTimeout(main, 1000)
