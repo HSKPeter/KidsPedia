@@ -1,7 +1,11 @@
 const { Configuration, OpenAIApi } = require("openai");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
+
+app.use(cors());
+app.use(bodyParser.json());
 
 require('dotenv').config()
 
@@ -36,8 +40,6 @@ async function getExplanationFromOpenAI(keyword) {
     ? choices[0]?.text?.trim()
     : ""
 }
-
-app.use(bodyParser.json());
 
 app.post("/api/search", async (req, res) => {
   const { keyword } = req.body;
