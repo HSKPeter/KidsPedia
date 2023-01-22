@@ -10,3 +10,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+#rainbow {
+  background: linear-gradient(to right, rgb(99 102 241), rgb(96 165 250));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
